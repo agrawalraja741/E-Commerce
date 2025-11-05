@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Category extends  BaseEntity{
 
-    private String CategoryName;
+    private String categoryName;
 
     /*@OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> ProductList;*/

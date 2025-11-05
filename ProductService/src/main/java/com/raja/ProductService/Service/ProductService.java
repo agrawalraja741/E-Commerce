@@ -12,5 +12,6 @@ public interface ProductService {
 
     Product getSingleProduct(Long productId) throws ProductNotFoundException;
     List<Product> getAllProducts() ;
-    ProductDTO createProduct(Product product) throws CategoryNotFoundException;
+    Product createProduct(Product product) throws CategoryNotFoundException;
+    void deleteProductById(Long productId) throws ProductNotFoundException;
 }

@@ -8,6 +8,7 @@ import com.raja.ProductService.Service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,9 +55,15 @@ public class ProductController {
 
 
 
-    @PostMapping()
+    @PostMapping("/")
     public ProductDTO createProduct(@RequestBody Product product) throws CategoryNotFoundException   {
-        return productService.createProduct(product);
+        return ProductDTO.fromProduct(productService.createProduct(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable("id") Long productId) throws ProductNotFoundException {
+        productService.deleteProductById(productId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /*
@@ -66,10 +73,7 @@ public class ProductController {
         return productService.getProductsByTitle(title, pageNumber, pageSize);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long productId) {
-        return null;
-    }
+
 
     @GetMapping("/searchByTitle/{title}")
     List<Product> getProductsByTitle(@PathVariable String title) {
