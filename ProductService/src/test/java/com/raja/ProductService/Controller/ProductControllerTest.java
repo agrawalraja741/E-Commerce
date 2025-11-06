@@ -69,4 +69,19 @@ class ProductControllerTest {
         assertEquals(description2, productController.getAllProducts().get(1).getProductDescription() );
 
     }
+
+    @Test
+    void createProduct() throws Exception{
+
+        Product expectedProduct = new Product();
+        String productName = "Product Name";
+        expectedProduct.setProductName(productName);
+        String description = "Product Description";
+        expectedProduct.setProductDescription(description);
+        when(productService.createProduct(new Product())).thenReturn(expectedProduct);
+
+        assertEquals(productName, productController.createProduct(new Product()).getProductName() );
+        assertEquals(description, productController.createProduct(new Product()).getProductDescription() );
+
+    }
 }
