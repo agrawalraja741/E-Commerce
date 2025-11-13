@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductController {
 
     private final RestTemplate restTemplate;
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService,
                              RestTemplate restTemplate) {

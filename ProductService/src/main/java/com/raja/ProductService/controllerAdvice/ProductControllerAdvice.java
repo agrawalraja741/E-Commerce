@@ -18,7 +18,7 @@ public class ProductControllerAdvice {
         // exceptionDto.setProductId(????);
 
         exceptionDto.setMessage(e.getMessage());
-        exceptionDto.setStatus(new String(HttpStatus.NOT_FOUND.toString()));
+        exceptionDto.setStatus(HttpStatus.NOT_FOUND.toString());
         return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
     }
 
@@ -29,7 +29,7 @@ public class ProductControllerAdvice {
         // exceptionDto.setProductId(????);
 
         exceptionDto.setMessage(e.getMessage());
-        exceptionDto.setStatus(new String(HttpStatus.NOT_FOUND.toString()));
+        exceptionDto.setStatus(HttpStatus.NOT_FOUND.toString());
         return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
     }
 }
