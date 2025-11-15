@@ -11,5 +11,5 @@ public class Order extends BaseEntity {
     private Long productId;
     private int quantity;
     private double price;
-    //private Long PaymentId;
+    private Long PaymentId;
 }

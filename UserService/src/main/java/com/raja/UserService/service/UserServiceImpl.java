@@ -1,5 +1,8 @@
 package com.raja.UserService.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.raja.UserService.DTO.SendEmailDTO;
 import com.raja.UserService.exception.UserAlreadyExist;
 import com.raja.UserService.model.User;
 import com.raja.UserService.repository.UserRepository;
@@ -7,6 +10,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,12 @@ public class UserServiceImpl implements UserService{
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -35,6 +45,18 @@ public class UserServiceImpl implements UserService{
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        SendEmailDTO sendEmailDTO = new SendEmailDTO();
+        sendEmailDTO.setEmail(user.getEmail());
+        sendEmailDTO.setSubject("Sign Up Successful");
+        sendEmailDTO.setBody("Welcome to Our E-Commerce platform");
+
+        try
+        {
+            kafkaTemplate.send("sendWelcomeEmail" , objectMapper.writeValueAsString(sendEmailDTO));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         return userRepository.save(user);
     }

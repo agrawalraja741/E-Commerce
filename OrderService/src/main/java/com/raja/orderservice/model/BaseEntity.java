@@ -18,8 +18,8 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //@CreatedDate
-    //private Date createdAt;
+    @CreatedDate
+    private Date createdAt;
 
     @LastModifiedDate
     private Date updatedAt;
