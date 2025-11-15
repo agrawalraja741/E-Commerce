@@ -45,7 +45,7 @@ public class SendWelcomeEmailEventConsumer {
             //override the getPasswordAuthentication method
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(
-                        "tryyou1402@gmail.com",
+                        "agrawalraja741@gmail.com",
                         "liiwvucxonxsfdnm");
             }
         };
