@@ -23,6 +23,7 @@
         <module>ProductService</module>
         <module>UserService</module>
         <module>OrderService</module>
+        <module>EmailService</module>
         <!-- Add more microservices here later -->
     </modules>
 
