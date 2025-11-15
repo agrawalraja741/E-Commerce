@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class UserControllerAdvice {
 
-    @ExceptionHandler({PasswordMismatchException.class, UserAlreadyExist.class})
+    @ExceptionHandler({PasswordMismatchException.class, UserAlreadyExist.class, RuntimeException.class})
     public ResponseEntity<ErrorResponseDTO> handleUserControllerException(Exception e) {
         ErrorResponseDTO exceptionDto = new ErrorResponseDTO();
         exceptionDto.setMessage(e.getMessage());
