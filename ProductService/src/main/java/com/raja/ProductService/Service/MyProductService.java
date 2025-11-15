@@ -9,6 +9,7 @@ import com.raja.ProductService.Repository.CategoryRepository;
 import com.raja.ProductService.Repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,19 @@ public class MyProductService implements ProductService{
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     public Product getSingleProduct(Long productId) throws ProductNotFoundException
     {
+        Product productFromRedis = (Product) redisTemplate.opsForHash().get("PRODUCT", "PRODUCT_"+productId);
+        if(productFromRedis != null)
+        {
+            log.error("From Redis ");
+            return productFromRedis;
+        }
+
+        log.error("From DB ");
         Optional<Product> product = productRepository.findById(productId);
 
         if(product.isEmpty())
@@ -33,7 +45,7 @@ public class MyProductService implements ProductService{
             throw new ProductNotFoundException("Product with product id is not present");
         }
 
-        log.error("product fetched " + product.get());
+        redisTemplate.opsForHash().put("PRODUCT", "PRODUCT_"+productId, product.get());
         return product.get();
     }
 

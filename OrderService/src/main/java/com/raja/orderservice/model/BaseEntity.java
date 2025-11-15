@@ -1,4 +1,4 @@
-package com.raja.ProductService.Model;
+package com.raja.orderservice.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,19 +8,18 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @CreatedDate
-    private Date createdAt;
+    //@CreatedDate
+    //private Date createdAt;
 
     @LastModifiedDate
     private Date updatedAt;

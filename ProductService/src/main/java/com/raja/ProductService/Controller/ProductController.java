@@ -35,7 +35,6 @@ public class ProductController {
     public ProductDTO getSingleProduct(@PathVariable("id") Long productId) throws ProductNotFoundException {
 
         Product product =  productService.getSingleProduct(productId);
-        log.error(product.toString());
         return ProductDTO.fromProduct(product);
     }
 
