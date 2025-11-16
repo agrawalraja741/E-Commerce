@@ -1,5 +1,6 @@
 package com.raja.orderservice.controller;
 
+import com.raja.orderservice.dto.GetOrderDetailsRequestDTO;
 import com.raja.orderservice.dto.OrderRequestDTO;
 import com.raja.orderservice.dto.OrderResponseDTO;
 import com.raja.orderservice.exception.InvalidJSTTokenException;
@@ -39,11 +40,10 @@ public class OrderController {
         JwtParser jwtParser = Jwts.parser().verifyWith(secretKey).build();
         Claims claims = jwtParser.parseSignedClaims(jwtToken).getPayload();
 
-        Long expiryTime = (Long)claims.get("expirationDate");
+        Long expiryTime = (Long) claims.get("expirationDate");
         Long now = System.currentTimeMillis();
         log.error(expiryTime + " " + now);
-        if(! (expiryTime > now ))
-        {
+        if (!(expiryTime > now)) {
             throw new InvalidJSTTokenException("Invalid Session. Please login again");
         }
         log.error(orderRequestDTO.getProducts().toString());
@@ -51,12 +51,36 @@ public class OrderController {
         log.error(products.toString());
         OrderResponseDTO orderResponseDTO = orderService.placeOrder(products, claims.get("email").toString());
 
-        if(orderResponseDTO == null)
-        {
+        if (orderResponseDTO == null) {
             throw new RuntimeException("Order not created. Please try again");
         }
 
         return orderResponseDTO;
     }
 
+    @GetMapping("/{jwtToken}")
+    public OrderResponseDTO getOrderDetails(@RequestBody GetOrderDetailsRequestDTO getOrderDetailsRequestDTO,
+                                            @PathVariable("jwtToken") String jwtToken) {
+
+        SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        JwtParser jwtParser = Jwts.parser().verifyWith(secretKey).build();
+        Claims claims = jwtParser.parseSignedClaims(jwtToken).getPayload();
+
+        Long expiryTime = (Long) claims.get("expirationDate");
+        Long now = System.currentTimeMillis();
+        log.error(expiryTime + " " + now);
+        if (!(expiryTime > now)) {
+            throw new InvalidJSTTokenException("Invalid Session. Please login again");
+        }
+
+        Order order = orderService.getOrderDetails(getOrderDetailsRequestDTO.getOrderId());
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponseDTO.setOrderId(order.getId());
+        orderResponseDTO.setProducts(order.getProducts());
+        orderResponseDTO.setAmount(order.getPrice());
+        orderResponseDTO.setOrderStatus(order.getStatus());
+        orderResponseDTO.setPaymentId(order.getPaymentId());
+        orderResponseDTO.setOrderDate(order.getCreatedAt());
+        return orderResponseDTO;
+    }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface OrderService {
 
     public OrderResponseDTO placeOrder(List<Product> products, String email);
+    public Order getOrderDetails(Long orderId);
+
 }

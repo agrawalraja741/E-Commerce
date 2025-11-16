@@ -1,6 +1,8 @@
 package com.raja.orderservice.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
@@ -12,7 +14,7 @@ public class Order extends BaseEntity {
 
     private String email;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Product> products;
     private double price;
     private Long PaymentId;
