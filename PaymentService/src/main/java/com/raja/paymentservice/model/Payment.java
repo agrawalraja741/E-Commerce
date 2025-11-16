@@ -8,5 +8,7 @@ import lombok.Data;
 public class Payment extends  BaseEntity{
 
     private PaymentStatus paymentStatus;
+    private Long orderId;
+    private double amount;
 
 }
