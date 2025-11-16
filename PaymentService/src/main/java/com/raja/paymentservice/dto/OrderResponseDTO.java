@@ -1,6 +1,5 @@
-package com.raja.orderservice.dto;
+package com.raja.paymentservice.dto;
 
-import com.raja.orderservice.model.OrderStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,8 +8,7 @@ import java.util.Date;
 public class OrderResponseDTO {
 
     private Long orderId;
-    private OrderStatus orderStatus;
+    private String orderStatus;
     private Date orderDate;
     private Double amount;
-    private String paymentLink;
 }

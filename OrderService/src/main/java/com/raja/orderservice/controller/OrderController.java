@@ -49,18 +49,13 @@ public class OrderController {
         log.error(orderRequestDTO.getProducts().toString());
         List<Product> products = orderRequestDTO.getProducts();
         log.error(products.toString());
-        Order order = orderService.placeOrder(products, claims.get("email").toString());
+        OrderResponseDTO orderResponseDTO = orderService.placeOrder(products, claims.get("email").toString());
 
-        if(order == null)
+        if(orderResponseDTO == null)
         {
             throw new RuntimeException("Order not created. Please try again");
         }
 
-        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
-        orderResponseDTO.setOrderId(order.getId());
-        orderResponseDTO.setOrderStatus(OrderStatus.SUCCESS);
-        orderResponseDTO.setAmount(order.getPrice());
-        orderResponseDTO.setOrderDate(order.getCreatedAt());
         return orderResponseDTO;
     }
 

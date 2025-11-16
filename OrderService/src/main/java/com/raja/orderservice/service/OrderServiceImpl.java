@@ -1,14 +1,19 @@
 package com.raja.orderservice.service;
 
+import com.raja.orderservice.dto.OrderResponseDTO;
 import com.raja.orderservice.dto.ProductDTO;
 import com.raja.orderservice.model.Order;
 import com.raja.orderservice.model.OrderStatus;
 import com.raja.orderservice.model.Product;
+import com.raja.orderservice.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,12 +23,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Override
-    public Order placeOrder( List<Product> products , String email) {
+    @Autowired
+    private OrderRepository orderRepository;
 
-        //call product MS to get product detials
-        //calculate final amound
-        //create order with pending status
+    @Override
+    public OrderResponseDTO placeOrder( List<Product> products , String email) {
 
         Order order = new Order();
         order.setEmail(email);
@@ -38,9 +42,21 @@ public class OrderServiceImpl implements OrderService {
         order.setProducts(products);
         order.setStatus(OrderStatus.PENDING);
 
-        log.error("Order " + order.toString());
+        Order createdOrder = orderRepository.save(order);
 
-        // go for payment MS
-        return null;
+        log.error("createdOrder " + createdOrder.toString());
+
+
+        OrderResponseDTO responseDTO = new OrderResponseDTO();
+        responseDTO.setAmount(createdOrder.getPrice());
+        responseDTO.setOrderId(createdOrder.getId());
+        responseDTO.setOrderDate(new Date());
+        responseDTO.setOrderStatus(createdOrder.getStatus());
+
+        String paymentLink = restTemplate.postForObject("http://localhost:7000/payments/initiate", responseDTO, String.class);
+
+        responseDTO.setPaymentLink(paymentLink);
+
+        return responseDTO;
     }
 }
