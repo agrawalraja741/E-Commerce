@@ -71,7 +71,7 @@ public class UserController {
         Long expiryTime = (Long)claims.get("expirationDate");
         Long now = System.currentTimeMillis();
 
-        if(! (expiryTime*1000L > now && claims.get("email").toString().equalsIgnoreCase(loginRequestDTO.getEmail())))
+        if(! (expiryTime > now && claims.get("email").toString().equalsIgnoreCase(loginRequestDTO.getEmail())))
         {
             throw new RuntimeException("Invalid Session. Please login again");
         }
