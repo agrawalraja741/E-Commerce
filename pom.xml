@@ -26,6 +26,7 @@
         <module>EmailService</module>
         <module>PaymentService</module>
         <module>ServiceDiscoveryService</module>
+        <module>APIGateway</module>
         <!-- Add more microservices here later -->
     </modules>
 
