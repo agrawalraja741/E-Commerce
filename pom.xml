@@ -25,6 +25,7 @@
         <module>OrderService</module>
         <module>EmailService</module>
         <module>PaymentService</module>
+        <module>ServiceDiscoveryService</module>
         <!-- Add more microservices here later -->
     </modules>
 
