@@ -4,6 +4,7 @@ import com.raja.paymentservice.dto.OrderResponseDTO;
 import com.raja.paymentservice.service.PaymentService;
 import com.stripe.exception.StripeException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class PaymentController {
     }
 
     @PostMapping("/initiate")
-    public String initiatePayment(OrderResponseDTO orderResponseDTO) throws StripeException {
+    public String initiatePayment(@RequestBody OrderResponseDTO orderResponseDTO) throws StripeException {
         return paymentService.generatePaymentLink(orderResponseDTO);
     }
 }
