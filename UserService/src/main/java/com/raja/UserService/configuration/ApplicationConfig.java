@@ -22,7 +22,7 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
       httpSecurity.csrf(csrf -> csrf.disable())
                       .cors(cors -> cors.disable())
@@ -31,7 +31,7 @@ public class ApplicationConfig {
         );
 
         return httpSecurity.build();
-    }
+    }*/
 
     /*@Bean
     public SecretKey getSecretKey() {

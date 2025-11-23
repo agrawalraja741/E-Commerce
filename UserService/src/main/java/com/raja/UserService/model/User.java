@@ -1,6 +1,7 @@
 package com.raja.UserService.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
@@ -16,6 +17,6 @@ public class User extends BaseEntity{
     private String phone;
     private String address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 }
